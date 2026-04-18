@@ -60,7 +60,10 @@ export function Sidebar() {
       </AnimatePresence>
 
       <motion.aside 
-        className={`fixed inset-y-0 left-0 z-40 w-64 glassmorphism-dark border-r border-slate-700/50 flex flex-col transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out dark:bg-slate-900/60`}
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 border-r border-emerald-500/20 flex flex-col transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out shadow-[10px_0_30px_rgba(0,0,0,0.5)]`}
+        style={{
+          background: 'linear-gradient(180deg, #06402B 0%, #0f172a 100%)'
+        }}
       >
         <div className="p-6 flex items-center space-x-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
