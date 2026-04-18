@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import { Bell, Search, User, Mic, LogOut, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
+import { Languages } from 'lucide-react';
 
 export function Header() {
   const { user, logout, isAuthenticated } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const triggerVoice = () => {
@@ -26,7 +29,7 @@ export function Header() {
         </div>
         <input 
           type="text" 
-          placeholder="Search crop prices, weather, experts..."
+          placeholder={language === 'en' ? "Search prices, weather, experts..." : "कीमतें, मौसम, विशेषज्ञ खोजें..."}
           className="block w-full pl-10 pr-12 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
         />
         <button 
@@ -39,6 +42,16 @@ export function Header() {
 
       {/* Right Actions */}
       <div className="flex items-center space-x-3 md:space-x-4">
+        
+        {/* Language Toggle */}
+        <button 
+          onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+          className="flex items-center space-x-2 px-3 py-2 rounded-full border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+        >
+          <Languages className="w-4 h-4 text-emerald-500" />
+          <span className="text-xs font-black uppercase tracking-widest">{language === 'en' ? 'हिन्दी' : 'EN'}</span>
+        </button>
+
         {/* Voice Assistant Button */}
         <motion.button 
           whileHover={{ scale: 1.05 }}
@@ -47,7 +60,7 @@ export function Header() {
           className="flex items-center space-x-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white px-3 py-2 rounded-full shadow-lg shadow-emerald-500/30 transition-all"
         >
           <Mic className="w-4 h-4" />
-          <span className="hidden sm:inline-block text-sm font-black pr-1 tracking-tight">Kisan Voice</span>
+          <span className="hidden sm:inline-block text-sm font-black pr-1 tracking-tight">{language === 'en' ? 'Kisan Voice' : 'किसान वॉयस'}</span>
         </motion.button>
 
         {/* Notifications */}

@@ -19,8 +19,13 @@ import {
   Sparkles,
   MessageSquare,
   ChevronRight,
-  PhoneCall
+  PhoneCall,
+  Database,
+  Search,
+  CheckCircle,
+  Users
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 const STAGGER_DELAY = 0.05;
 
@@ -73,6 +78,7 @@ const StatCard = ({ icon: Icon, label, labelHi, value, delta, isPositive, delay,
 };
 
 export default function Home() {
+  const { t, language } = useLanguage();
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-12">
       
@@ -87,13 +93,13 @@ export default function Home() {
         >
           <div className="flex items-center space-x-3 mb-1">
              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-             <p className="text-xs text-slate-500 font-black uppercase tracking-widest">Live: District Barabanki, UP</p>
+             <p className="text-xs text-slate-500 font-black uppercase tracking-widest">{t('hero.location')}</p>
           </div>
           <h1 className="text-4xl lg:text-5xl font-black text-slate-800 dark:text-white tracking-tighter">
-            Smart Mandi Assistant: <span className="text-gradient underline decoration-emerald-500/20 underline-offset-8">Cryptic Coders</span>
+            {t('hero.title')}: <span className="text-gradient underline decoration-emerald-500/20 underline-offset-8">Cryptic Coders</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 font-bold max-w-xl leading-relaxed text-sm">
-             Data-driven insights tailored for your wheat and potato crops. (आपके गेहूं और आलू की फसल के लिए विशेष विश्लेषण)
+             {t('hero.subtitle')}
           </p>
           
           <div className="flex items-center space-x-4 pt-4">
@@ -139,9 +145,9 @@ export default function Home() {
               <Zap className="w-5 h-5 text-amber-400" />
             </div>
             <div className="flex-1">
-               <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Alert: Rainfall in 48h</p>
+               <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">{t('weather.alert')}</p>
                <p className="text-xs font-semibold text-slate-300 leading-normal">
-                  Sudden rain expected. **Immediate Action:** Sell stored Wheat at Lucknow Mandi today for max profit margin!
+                  {t('weather.action')}
                </p>
             </div>
           </div>
@@ -152,8 +158,8 @@ export default function Home() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
           icon={TrendingUp} 
-          label="Net Profit Rate" 
-          labelHi="शुद्ध लाभ दर"
+          label={t('stat.profit')}
+          labelHi={language === 'en' ? "शुद्ध लाभ दर" : "Net Profit Rate"}
           value="₹1,24,500" 
           delta="+12.5%" 
           isPositive={true}
@@ -162,8 +168,8 @@ export default function Home() {
         />
         <StatCard 
           icon={Leaf} 
-          label="Fasal Health Index" 
-          labelHi="फसल स्वास्थ्य"
+          label={t('stat.health')}
+          labelHi={language === 'en' ? "फसल स्वास्थ्य" : "Crop Health"}
           value="94/100" 
           delta="+2.1%" 
           isPositive={true}
@@ -171,8 +177,8 @@ export default function Home() {
         />
         <StatCard 
           icon={PhoneCall} 
-          label="Help & Support" 
-          labelHi="सहायता और सहयोग"
+          label={t('stat.help')}
+          labelHi={language === 'en' ? "सहायता और सहयोग" : "Support"}
           value="Emergency (24/7)" 
           delta="LIVE" 
           isPositive={true}
@@ -181,13 +187,13 @@ export default function Home() {
         />
         <StatCard 
           icon={MapPin} 
-          label="Best Mandi Premium" 
-          labelHi="मंडी का सर्वश्रेष्ठ भाव"
+          label={t('stat.bestMandi')}
+          labelHi={language === 'en' ? "मंडी का सर्वश्रेष्ठ भाव" : "Market Premium"}
           value="₹2,480/q" 
           delta="+₹180" 
           isPositive={true}
           delay={STAGGER_DELAY * 4}
-          href="/heatmap"
+          href="/trends"
         />
       </div>
 
@@ -207,7 +213,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-2xl bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
               <MessageSquare className="w-5 h-5" />
             </div>
-            <h2 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-tight">ज्ञान गुरु का सुझाव (Gyan Advice)</h2>
+            <h2 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-tight">{t('advisor.title')}</h2>
           </div>
           
           <div className="space-y-6 flex-1">
@@ -268,7 +274,74 @@ export default function Home() {
             </div>
           </div>
         </motion.div>
+
+        {/* Community Feed Preview */}
+        <motion.div 
+           initial={{ opacity: 0, scale: 0.95 }}
+           whileInView={{ opacity: 1, scale: 1 }}
+           viewport={{ once: true }}
+           className="glassmorphism rounded-[40px] dark:glassmorphism-dark p-8 border border-white/10 relative overflow-hidden flex flex-col group"
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-tight flex items-center">
+              <Users className="w-5 h-5 mr-3 text-emerald-500" /> {t('community.title')}
+            </h2>
+            <Link href="/community" className="text-[10px] font-black text-emerald-500 uppercase tracking-widest hover:underline">{language === 'en' ? 'View All' : 'सभी देखें'}</Link>
+          </div>
+
+          <div className="space-y-4">
+             {[
+               { user: 'Suresh K.', report: 'Bhari bheed hai Lucknow mandi mein today!', time: '10m ago' },
+               { user: 'Mahesh S.', report: 'Barabanki local rates are stable now.', time: '45m ago' }
+             ].map((item, i) => (
+               <div key={i} className="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-white/5">
+                  <p className="text-[10px] font-black text-slate-400 uppercase mb-1">{item.user} • {item.time}</p>
+                  <p className="text-xs font-bold text-slate-700 dark:text-slate-300 line-clamp-2">&quot;{item.report}&quot;</p>
+               </div>
+             ))}
+          </div>
+
+          <Link href="/community" className="w-full mt-6 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black rounded-2xl shadow-xl transition-all uppercase tracking-widest text-[10px] flex items-center justify-center gap-2">
+             <span>{t('community.join')}</span>
+             <ChevronRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
       </div>
+
+      {/* Data Intelligence Sources Section - Slide 3 Alignment */}
+      <motion.div 
+         initial={{ opacity: 0, y: 30 }}
+         whileInView={{ opacity: 1, y: 0 }}
+         viewport={{ once: true }}
+         className="mt-12 p-8 glassmorphism dark:glassmorphism-dark rounded-[40px] border border-emerald-500/10"
+      >
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+           <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-emerald-500 shadow-inner">
+                 <Database className="w-6 h-6" />
+              </div>
+              <div>
+                 <h3 className="text-lg font-black text-slate-800 dark:text-white uppercase tracking-tight">{t('data.sources')}</h3>
+                 <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">{t('data.update')}</p>
+              </div>
+           </div>
+
+           <div className="flex flex-wrap justify-center gap-6">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/5">
+                 <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('data.mandi')}</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/5">
+                 <div className="w-2 h-2 rounded-full bg-blue-500" />
+                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t('data.weather')}</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/5">
+                 <div className="w-2 h-2 rounded-full bg-amber-500" />
+                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Team ID: RRGI-122</span>
+              </div>
+           </div>
+        </div>
+      </motion.div>
     </div>
   );
 }

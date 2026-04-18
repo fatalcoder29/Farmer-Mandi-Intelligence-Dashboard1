@@ -14,25 +14,26 @@ import {
   X,
   Zap,
   BadgeInfo,
-  Sparkles
+  Sparkles,
+  Users
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { name: 'Dashboard', path: '/', icon: LayoutDashboard },
-  { name: 'AI Crop Lab', path: '/crop-lab', icon: Leaf },
-  { name: 'Smart Advisor', path: '/advisor', icon: Sparkles },
-  { name: 'Digital Mandi', path: '/mandi', icon: ShoppingCart },
-  { name: 'Profit Analysis', path: '/profit-analysis', icon: TrendingUp },
-  { name: 'Sarkari Yojana', path: '/schemes', icon: BadgeInfo },
-  { name: 'Profit Heatmap', path: '/heatmap', icon: MapIcon },
-  { name: 'Training Hub', path: '/training', icon: GraduationCap },
-  { name: 'Risk Alerts', path: '/alerts', icon: ShieldAlert },
-  { name: 'Vision 2030', path: '/future', icon: Zap },
+  { name: 'nav.dashboard', path: '/', icon: LayoutDashboard },
+  { name: 'nav.cropLab', path: '/crop-lab', icon: Leaf },
+  { name: 'nav.advisor', path: '/advisor', icon: Sparkles },
+  { name: 'nav.mandi', path: '/mandi', icon: ShoppingCart },
+  { name: 'nav.trends', path: '/trends', icon: TrendingUp },
+  { name: 'nav.community', path: '/community', icon: Users },
+  { name: 'nav.alerts', path: '/alerts', icon: ShieldAlert },
+  { name: 'nav.future', path: '/future', icon: Zap },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -86,7 +87,7 @@ export function Sidebar() {
                     : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
                 }`}>
                   <item.icon className="w-5 h-5 flex-shrink-0" />
-                  <span className="font-medium text-sm">{item.name}</span>
+                  <span className="font-medium text-sm">{t(item.name)}</span>
                 </div>
               </Link>
             );
@@ -96,9 +97,9 @@ export function Sidebar() {
         <div className="p-4 m-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
           <div className="flex items-center mb-2 space-x-2">
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Mandi Open</span>
+            <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">{language === 'en' ? 'Mandi Open' : 'मंडी खुली है'}</span>
           </div>
-          <p className="text-xs text-slate-400">Next price update in 14m</p>
+          <p className="text-xs text-slate-400">{language === 'en' ? 'Next price update in 14m' : 'अगला अपडेट 14 मिनट में'}</p>
         </div>
       </motion.aside>
     </>
